@@ -28,7 +28,12 @@ module Helper
                 toplam = toplam + Constant.w[iterator]
             end
         end
-        return toplam
+        if toplam > Constant.CANTABOYUTU
+            return 0
+        else
+            return toplam
+        end
+        # return toplam
     end
 
     # oran hesaplar
@@ -39,5 +44,13 @@ module Helper
         return trunc(Int,z)
     end
 
+    # Verilen arraydeki bireylerin valuelerini hesaplayıp dictionary olarak döndürür.
+    # PARAMS
+    #   populasyon(array): Dönüştürülecek array
+    # RETURN
+    #   returnStatement: ["0010100111", 547], ["0010100111", 547].... tipinde dictionary olumus hali.
+    function populasyonDict(populasyon)
+        
+    end
 
 end

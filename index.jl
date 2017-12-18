@@ -12,11 +12,16 @@ module index
             parents = Step.parentSelect(ilkPopulasyon) # Ebeveynleri sec (PARENT SELECT)
 
             # Ebeveynleri caprazla (RECOMBINE) ve yavruları mutasyona tabi tut (MUTATE)
-            Step.recombineAndMutate(parents) 
+            # (Offsprings(Cocuklar), parents)
+            (yeniAdaylar, ebeveynler) = Step.recombineAndMutate(parents)
 
+            # İki diziyi birleştirir. Değerlerini hesaplayıp dictionary yapar.
+            # sort'laryıp ilk 50 yi döndürür
+            yeniPopulasyon = Step.survivalSelect(yeniAdaylar, ebeveynler)
 
         end
     end
+
     main()
 
     #

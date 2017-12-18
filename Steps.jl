@@ -69,14 +69,19 @@ module Step
     # Recombine: Caprazlama islemini temsil eder. Tek noktalı caprazlama uygulanır. 5 elemanlı
     # bir birey icin 0.2 caprazlama noktası ikinci elemandan itibaren caprazlamayı gerektirir.
     function recombineAndMutate(parents)
-        yeniCocuklar = [] # Yeni oluşan offspringler
+        cocuklar = [] # Yeni oluşan offspringler
+        tempParents = []
 
         while length(parents) > 0
             println("Applying Crossover")
             c1 = []
             c2 = []
+
             p1 = pop!(parents)
+            push!(tempParents, p1)
             p2 = pop!(parents)
+            push!(tempParents, p2)
+
             oran = Helper.oranHesapla(10)
 
             print("Parents: ", p1, ",", p2, " at point ", oran)
@@ -92,14 +97,14 @@ module Step
 
             println("\nOffsprings: ", c1, ",", c2)
 
-            mutatedChild1 = Mutation(c1)
-            mutatedChild2 = Mutation(c2)
+            mutasyonluCocuk1 = Mutation(c1)
+            mutasyonluCocuk2 = Mutation(c2)
 
-            println("Mutated offsprings: ", mutatedChild1, " , ", mutatedChild2, "\n")
-            push!(yeniCocuklar, mutatedChild1)
-            push!(yeniCocuklar, mutatedChild1)
+            println("Mutated offsprings: ", mutasyonluCocuk1, " , ", mutasyonluCocuk2, "\n")
+            push!(cocuklar, mutasyonluCocuk1)
+            push!(cocuklar, mutasyonluCocuk2)
         end
-        return yeniCocuklar
+        return cocuklar, tempParents
     end
 
     # Mutation: Bireyler uzerinde bit cevirme(bit flipping) mutasyonu uygulanır. Bakılan bit
@@ -118,5 +123,18 @@ module Step
         return cocuk
     end
 
+    # Survival Select: Hayatta kalanların secilmesini temsil eder. Populasyon sayısı(µ)’nın
+    # sabit kalması istendigi icin yeni uretilen yavrular(λ) populasyona eklenir ve tum populasyondan
+    # en iyi µ tanesi secilir.
+    function survivalSelect(offsprings, parents)    
+        # iki diziyi birleştir
+        # değerlerini hesaplayıp dictionary yap
+        # sort la
+        # ilk 50 yi döndür
+
+
+
+
+    end
 
 end
