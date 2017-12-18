@@ -12,19 +12,20 @@ module Step
         birey = []
         bireyler = []
         while length(bireyler) < Constant.POPULASYONBOYUTU
-            for i = 1:10
+            for i = 1:length(Constant.w)
                 tempRand = rand()
+                # tempRand = Helper.randomSayiGetir()
+                # println(tempRand)
                 if  tempRand >= Constant.BASLANGICOLASILIGI
                     push!(birey, 1)
                 else
                     push!(birey, 0)
                 end
             end
-            # if Helper.bireyAgirlikKontrolu(birey) != 0
             push!(bireyler, birey)
-            # end
             birey=[] # temizle bireyi
          end
+         # println(bireyler)
          return bireyler
     end
 
@@ -48,18 +49,10 @@ module Step
     # 2 ebeveyn daha secilerek caprazlama ve mutasyon uygulanır. Sonucta yavrularla(offspring)
     # birlikte populasyonda 11 birey olur.
     function parentSelect(BIREYLER)
-        populasyon = length(BIREYLER)
-        parentSayisi = 0
         PARENTS = []
 
-        if isodd(populasyon)
-            parentSayisi = populasyon - 1
-        else
-            parentSayisi = populasyon
-        end
-
-        for xx = 1:parentSayisi
-            ind = Helper.oranHesapla(populasyon)
+        for xx = 1:Constant.EBEBEYNSAYISI
+            ind = Helper.oranHesapla(length(BIREYLER))
             push!(PARENTS, BIREYLER[ind])
         end
         return PARENTS
@@ -72,7 +65,7 @@ module Step
         tempParents = []
 
         while length(parents) > 0
-            # println("Applying Crossover")
+            println("Applying Crossover")
             c1 = []
             c2 = []
 
@@ -83,7 +76,7 @@ module Step
 
             oran = Helper.oranHesapla(10)
 
-            # print("Parents: ", p1, ",", p2, " at point ", oran)
+            print("Parents: ", p1, ",", p2, " at point ", oran)
 
             for iterator = 1 : oran - 1
                 push!(c1, p1[iterator])
@@ -94,12 +87,12 @@ module Step
                 push!(c1, p2[iterator])
             end
 
-            # println("\nOffsprings: ", c1, ",", c2)
+            println("\nOffsprings: ", c1, ",", c2)
 
             mutasyonluCocuk1 = Mutation(c1)
             mutasyonluCocuk2 = Mutation(c2)
 
-            # println("Mutated offsprings: ", mutasyonluCocuk1, " , ", mutasyonluCocuk2, "\n")
+            println("Mutated offsprings: ", mutasyonluCocuk1, " , ", mutasyonluCocuk2, "\n")
             push!(cocuklar, mutasyonluCocuk1)
             push!(cocuklar, mutasyonluCocuk2)
         end
@@ -108,9 +101,10 @@ module Step
 
     # Mutation: Bireyler uzerinde bit cevirme(bit flipping) mutasyonu uygulanır. Bakılan bit
     # icin uretilen rastgele deger mutasyon oranından kucukse o bit tersine cevrilir.
-    function Mutation(cocuk)
+    function Mutation(cocuk) 0100011
         for iterasyon = 1:length(cocuk)
             tempRand = rand()
+            # tempRand = Helper.randomSayiGetir()
             if Constant.MUTASYONOLASILIGI > tempRand
                 if cocuk[iterasyon] == 0
                     cocuk[iterasyon] = 1
@@ -133,22 +127,46 @@ module Step
 
         yeniAdaylar = []
 
+        # println("=> ", length(offsprings))
+        # println("=> ", length(parents))
+
         # arrayleri birleştirdi.
         nonCheckPopulation = [offsprings; parents]
+
+        # println("----nonCheckPopulation----------------------------------------", length(nonCheckPopulation))
+        # for i in nonCheckPopulation
+        #     println(i)
+        # end
+        # println("--------------------------------------------")
+
 
         # dictionary haline getirdi
         allPopulation = Helper.populasyonDict(nonCheckPopulation)
 
+        # println("----------------------allPopulation----------------------", length(allPopulation))
+        # for i in allPopulation
+        #     println(i)
+        # end
+        # println("--------------------------------------------")
+
+
         # sortladık(dictionary)
-        sortedPopulation = sortperm(collect(allPopulation), by=x->x[2], rev=true)
+        sortedPopulation = sort(collect(allPopulation), by=x->x[2], rev=true)
+
+
+        # println("----------------------sortedPopulation----------------------", length(sortedPopulation))
+        # for i in sortedPopulation
+        #     println(i)
+        # end
+        # println("--------------------------------------------")
 
 
         for (key, value) in sortedPopulation
-            while(length(yeniAdaylar) < Constant.POPULASYONBOYUTU)
-                println(key)
+            if length(yeniAdaylar) < Constant.POPULASYONBOYUTU || value > 0
                 push!(yeniAdaylar,key)
             end
         end
+
         return yeniAdaylar
     end
 

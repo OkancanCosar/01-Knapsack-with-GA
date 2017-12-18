@@ -7,13 +7,13 @@ module Helper
     #   sira:
     # RETURN
     #   random: random listesinden sıradaki değer
-    function randomSayiGetir(sira)
-        if RANDOMITERASYONU == 12
-            RANDOMITERASYONU = 1
-            return Constants.RANDOMLAR[1]
+    function randomSayiGetir() # Helper.randomSayiGetir(Constant.RANDOMITERASYONU)
+        if Constant.RANDOMITERASYONU == 11
+            Constant.birle()
+            return Constant.RANDOMLAR[1]
         end
-        RANDOMITERASYONU = RANDOMITERASYONU + 1
-        return Constants.RANDOMLAR[sira]
+        Constant.artir()
+        return Constant.RANDOMLAR[Constant.RANDOMITERASYONU]
     end
 
     # Gelen birey çantaya sığıyor mu?
@@ -29,7 +29,7 @@ module Helper
             end
         end
         if toplam > Constant.CANTABOYUTU
-            return 0
+            return "0"
         else
             return toplam
         end
@@ -43,24 +43,27 @@ module Helper
     #   toplam: gelen bireyin değeri(value)
     function bireyDegerKontrolu(gelenBirey) # 01110011
         toplam = 0 # bireyin ağırlığı
-        for iterator = 1:length(Constant.w)
-            if gelenBirey[iterator] == 1
-                toplam = toplam + Constant.v[iterator]
+
+        if bireyAgirlikKontrolu(gelenBirey) != "0"
+            for iterator = 1:length(Constant.w)
+                if gelenBirey[iterator] == 1
+                    toplam = toplam + Constant.v[iterator]
+                end
             end
-        end
-        if toplam > Constant.CANTABOYUTU
-            return 0
-        else
             return toplam
+        else
+            return 00
         end
+
         # return toplam
     end
     # oran hesaplar
     # min + rand()*(max-min)
     function oranHesapla(populasyon)
         r = rand()
-        z= round( 1 + (r * (populasyon - 1)))
-        return trunc(Int,z)
+        # r= Helper.randomSayiGetir()
+        z = round( 1 + (r * (populasyon - 1)))
+        return trunc(Int, z)
     end
 
     # Verilen arraydeki bireylerin valuelerini hesaplayıp dictionary olarak döndürür.
