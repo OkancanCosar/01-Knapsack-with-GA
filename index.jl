@@ -7,8 +7,8 @@ module index
         populasyon = Step.Initialise() # Baslangıc populasyonunu rastgele olustur (INITIALISE)
 
         for iterasyon = 1:Constant.ITERASYONSAYISI # Bitis kosulu saglanana kadar TEKRARLA(REPEAT)
-            # println("Generation: ", iterasyon)
-            # println("Populasyon: ", (populasyon))
+            println("Generation: ", iterasyon)
+            println("Populasyon: ", Helper.populasyonDict(populasyon))
 
             parents = Step.parentSelect(populasyon) # Ebeveynleri sec (PARENT SELECT)
 
