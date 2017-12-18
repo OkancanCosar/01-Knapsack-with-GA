@@ -20,7 +20,7 @@ module Helper
     # PARAMS
     #   gelenBirey: 1001100111
     # RETURN
-    #   toplam: gelen bireyin değeri(value)
+    #   toplam: gelen bireyin çantadaki ağırlıgı(weight)
     function bireyAgirlikKontrolu(gelenBirey) # 01110011
         toplam = 0 # bireyin ağırlığı
         for iterator = 1:length(Constant.w)
@@ -36,6 +36,25 @@ module Helper
         # return toplam
     end
 
+    # Gelen bireyin değeri
+    # PARAMS
+    #   gelenBirey: 1001100111
+    # RETURN
+    #   toplam: gelen bireyin değeri(value)
+    function bireyDegerKontrolu(gelenBirey) # 01110011
+        toplam = 0 # bireyin ağırlığı
+        for iterator = 1:length(Constant.w)
+            if gelenBirey[iterator] == 1
+                toplam = toplam + Constant.v[iterator]
+            end
+        end
+        if toplam > Constant.CANTABOYUTU
+            return 0
+        else
+            return toplam
+        end
+        # return toplam
+    end
     # oran hesaplar
     # min + rand()*(max-min)
     function oranHesapla(populasyon)
@@ -54,7 +73,7 @@ module Helper
         returnStatement = Dict()
 
         for b = 1:length(populasyon)
-            returnStatement[populasyon[b]] = bireyAgirlikKontrolu(populasyon[b])
+            returnStatement[populasyon[b]] = bireyDegerKontrolu(populasyon[b])
         end
         return returnStatement
     end

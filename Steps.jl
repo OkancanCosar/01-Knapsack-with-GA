@@ -20,9 +20,9 @@ module Step
                     push!(birey, 0)
                 end
             end
-            if Helper.bireyAgirlikKontrolu(birey) != 0
-                push!(bireyler, birey)
-            end
+            # if Helper.bireyAgirlikKontrolu(birey) != 0
+            push!(bireyler, birey)
+            # end
             birey=[] # temizle bireyi
          end
          return bireyler
@@ -72,7 +72,7 @@ module Step
         tempParents = []
 
         while length(parents) > 0
-            println("Applying Crossover")
+            # println("Applying Crossover")
             c1 = []
             c2 = []
 
@@ -83,7 +83,7 @@ module Step
 
             oran = Helper.oranHesapla(10)
 
-            print("Parents: ", p1, ",", p2, " at point ", oran)
+            # print("Parents: ", p1, ",", p2, " at point ", oran)
 
             for iterator = 1 : oran - 1
                 push!(c1, p1[iterator])
@@ -94,12 +94,12 @@ module Step
                 push!(c1, p2[iterator])
             end
 
-            println("\nOffsprings: ", c1, ",", c2)
+            # println("\nOffsprings: ", c1, ",", c2)
 
             mutasyonluCocuk1 = Mutation(c1)
             mutasyonluCocuk2 = Mutation(c2)
 
-            println("Mutated offsprings: ", mutasyonluCocuk1, " , ", mutasyonluCocuk2, "\n")
+            # println("Mutated offsprings: ", mutasyonluCocuk1, " , ", mutasyonluCocuk2, "\n")
             push!(cocuklar, mutasyonluCocuk1)
             push!(cocuklar, mutasyonluCocuk2)
         end
@@ -140,10 +140,12 @@ module Step
         allPopulation = Helper.populasyonDict(nonCheckPopulation)
 
         # sortladık(dictionary)
-        sortedPopulation = sort!(collect(allPopulation), by=x->x[2], rev=true)
+        sortedPopulation = sortperm(collect(allPopulation), by=x->x[2], rev=true)
+
 
         for (key, value) in sortedPopulation
-            while(length(yeniAdaylar) < 50)
+            while(length(yeniAdaylar) < Constant.POPULASYONBOYUTU)
+                println(key)
                 push!(yeniAdaylar,key)
             end
         end
