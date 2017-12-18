@@ -5,16 +5,14 @@ module index
 
     populasyon = []
 
-
-    function at(xxxxxxxxxxxx, it)
-        println("Populasyon: ")
-
-        for i = 1:length(xxxxxxxxxxxx)
-            println(xxxxxxxxxxxx[i], ", ", Helper.bireyDegerKontrolu(xxxxxxxxxxxx[i]))
+    function Calculate(populasyonlar)
+        
+        for i = 1:length(populasyonlar)
+            println(populasyonlar[i], ", ", Helper.bireyDegerKontrolu(populasyonlar[i]))
         end
 
-        parents = Step.parentSelect(xxxxxxxxxxxx) # Ebeveynleri sec (PARENT SELECT)
-
+        # Ebeveynleri sec (PARENT SELECT)
+        parents = Step.parentSelect(populasyonlar)
 
         # Ebeveynleri caprazla (RECOMBINE) ve yavruları mutasyona tabi tut (MUTATE)
         # (Offsprings(Cocuklar), parents)
@@ -22,10 +20,9 @@ module index
 
         # İki diziyi birleştirir. Değerlerini hesaplayıp dictionary yapar.
         # sort'laryıp ilk 50 yi döndürür
-        xxxxxxxxxxxx = Step.survivalSelect(yeniAdaylar, ebeveynler)
+        populasyonlar = Step.survivalSelect(yeniAdaylar, ebeveynler)
 
-
-        return xxxxxxxxxxxx
+        return populasyonlar
     end
 
 
@@ -36,18 +33,13 @@ module index
             println("Generation: ", iterasyon)
             if iterasyon == 0
                 populasyon = Step.Initialise() # Baslangıc populasyonunu rastgele olustur (INITIALISE)
-                populasyon = at(populasyon, iterasyon)
+                populasyon = Calculate(populasyon)
             else
-                populasyon = at(populasyon, iterasyon)
+                populasyon = Calculate(populasyon)
             end
         end
     end
 
-
-
     main()
-
-
-
 
 end

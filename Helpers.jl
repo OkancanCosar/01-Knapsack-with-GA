@@ -1,5 +1,5 @@
 module Helper
-    # include("Steps.jl")
+    # include("Steps.jl") # gülümse
     include("Constants.jl")
 
     # Dairesel şekilde random sayıları listeden getirir.
@@ -33,7 +33,6 @@ module Helper
         else
             return toplam
         end
-        # return toplam
     end
 
     # Gelen bireyin değeri
@@ -52,16 +51,14 @@ module Helper
             end
             return toplam
         else
-            return 00
+            return 0
         end
-
-        # return toplam
     end
+
     # oran hesaplar
     # min + rand()*(max-min)
     function oranHesapla(populasyon)
         r = rand()
-        # r= Helper.randomSayiGetir()
         z = round( 1 + (r * (populasyon - 1)))
         return trunc(Int, z)
     end
@@ -72,7 +69,6 @@ module Helper
     # RETURN
     #   returnStatement: ["0010100111", 547], ["0010100111", 547].... tipinde dictionary olumus hali.
     function populasyonDict(populasyon)
-
         returnStatement = Dict()
 
         for b = 1:length(populasyon)

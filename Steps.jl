@@ -15,7 +15,6 @@ module Step
             for i = 1:length(Constant.w)
                 tempRand = rand()
                 # tempRand = Helper.randomSayiGetir()
-                # println(tempRand)
                 if  tempRand >= Constant.BASLANGICOLASILIGI
                     push!(birey, 1)
                 else
@@ -23,9 +22,8 @@ module Step
                 end
             end
             push!(bireyler, birey)
-            birey=[] # temizle bireyi
+            birey=[]
          end
-         # println(bireyler)
          return bireyler
     end
 
@@ -50,7 +48,6 @@ module Step
     # birlikte populasyonda 11 birey olur.
     function parentSelect(BIREYLER)
         PARENTS = []
-
         for xx = 1:Constant.EBEBEYNSAYISI
             ind = Helper.oranHesapla(length(BIREYLER))
             push!(PARENTS, BIREYLER[ind])
@@ -120,53 +117,22 @@ module Step
     # sabit kalması istendigi icin yeni uretilen yavrular(λ) populasyona eklenir ve tum populasyondan
     # en iyi µ tanesi secilir.
     function survivalSelect(offsprings, parents)
-        # iki diziyi birleştir
-        # değerlerini hesaplayıp dictionary yap => Helper.populasyonDict()
-        # sort la
-        # ilk 50 yi döndür
-
         yeniAdaylar = []
-
-        # println("=> ", length(offsprings))
-        # println("=> ", length(parents))
 
         # arrayleri birleştirdi.
         nonCheckPopulation = [offsprings; parents]
 
-        # println("----nonCheckPopulation----------------------------------------", length(nonCheckPopulation))
-        # for i in nonCheckPopulation
-        #     println(i)
-        # end
-        # println("--------------------------------------------")
-
-
         # dictionary haline getirdi
         allPopulation = Helper.populasyonDict(nonCheckPopulation)
 
-        # println("----------------------allPopulation----------------------", length(allPopulation))
-        # for i in allPopulation
-        #     println(i)
-        # end
-        # println("--------------------------------------------")
-
-
         # sortladık(dictionary)
         sortedPopulation = sort(collect(allPopulation), by=x->x[2], rev=true)
-
-
-        # println("----------------------sortedPopulation----------------------", length(sortedPopulation))
-        # for i in sortedPopulation
-        #     println(i)
-        # end
-        # println("--------------------------------------------")
-
 
         for (key, value) in sortedPopulation
             if length(yeniAdaylar) < Constant.POPULASYONBOYUTU || value > 0
                 push!(yeniAdaylar,key)
             end
         end
-
         return yeniAdaylar
     end
 
