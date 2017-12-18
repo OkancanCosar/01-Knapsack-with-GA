@@ -4,13 +4,15 @@ module index
     include("Helpers.jl")
 
     function main()
-        ilkPopulasyon = Step.Initialise() # Ilk populasyonu oluşturduk ve geri döndük
+        ilkPopulasyon = Step.Initialise() # Baslangıc populasyonunu rastgele olustur (INITIALISE)
 
-        for iterasyon = 1:Constant.ITERASYONSAYISI
+        for iterasyon = 1:Constant.ITERASYONSAYISI # Bitis kosulu saglanana kadar TEKRARLA(REPEAT)
             println("Generation: ", iterasyon)
 
+            parents = Step.parentSelect(ilkPopulasyon) # Ebeveynleri sec (PARENT SELECT)
 
-
+            # Ebeveynleri caprazla (RECOMBINE) ve yavruları mutasyona tabi tut (MUTATE)
+            Step.recombineAndMutate(parents) 
 
 
         end

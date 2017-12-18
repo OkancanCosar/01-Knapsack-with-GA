@@ -23,7 +23,7 @@ module Helper
     #   toplam: gelen bireyin değeri(value)
     function bireyAgirlikKontrolu(gelenBirey) # 01110011
         toplam = 0 # bireyin ağırlığı
-        for iterator = 1:10
+        for iterator = 1:length(Constant.w)
             if gelenBirey[iterator] == 1
                 toplam = toplam + Constant.w[iterator]
             end

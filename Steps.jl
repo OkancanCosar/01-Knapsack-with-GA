@@ -60,62 +60,51 @@ module Step
         end
 
         for xx = 1:parentSayisi
-            ind = oranHesapla(populasyon)
-            println("index: ",ind)
+            ind = Helper.oranHesapla(populasyon)
             push!(PARENTS, BIREYLER[ind])
         end
         return PARENTS
     end
 
-
-
-
     # Recombine: Caprazlama islemini temsil eder. Tek noktalı caprazlama uygulanır. 5 elemanlı
     # bir birey icin 0.2 caprazlama noktası ikinci elemandan itibaren caprazlamayı gerektirir.
-    function Recombine(parents)
-        yeniCocuklar = []
-        while length(parents) > 0
-            p1 = pop!(parents)
-            p2 = pop!(parents)
+    function recombineAndMutate(parents)
+        yeniCocuklar = [] # Yeni oluşan offspringler
 
-            println("parent1=> ", p1)
-            println("parent2=> ", p2)
+        while length(parents) > 0
+            println("Applying Crossover")
             c1 = []
             c2 = []
-
-            # 11 1011101000  Ç! => 11 1000100010
-            # 10 1000100010  Ç2 => 10 1011101000
+            p1 = pop!(parents)
+            p2 = pop!(parents)
             oran = Helper.oranHesapla(10)
 
-            println("ORAN::::::::: ", oran)
+            print("Parents: ", p1, ",", p2, " at point ", oran)
 
-            for asdasfas = 1 : oran - 1
-                push!(c1, p1[asdasfas])
-                push!(c2, p2[asdasfas])
+            for iterator = 1 : oran - 1
+                push!(c1, p1[iterator])
+                push!(c2, p2[iterator])
+            end
+            for iterator = oran : 10
+                push!(c2, p1[iterator])
+                push!(c1, p2[iterator])
             end
 
-            for hh = oran : 10
-                push!(c2, p1[hh])
-                push!(c1, p2[hh])
-            end
+            println("\nOffsprings: ", c1, ",", c2)
 
-            println("çocuk1=> ", c1)
-            println("çocuk2=> ", c2)
+            mutatedChild1 = Mutation(c1)
+            mutatedChild2 = Mutation(c2)
 
-            println("-----------------------------------------------")
-            println("============MUTASYON============")
-
-            push!(yeniCocuklar, Mutasyon(c1))
-            push!(yeniCocuklar, Mutasyon(c2))
-
-            println("-----------------------------------------------")
+            println("Mutated offsprings: ", mutatedChild1, " , ", mutatedChild2, "\n")
+            push!(yeniCocuklar, mutatedChild1)
+            push!(yeniCocuklar, mutatedChild1)
         end
         return yeniCocuklar
     end
 
-    # Mutasyon: Bireyler uzerinde bit cevirme(bit flipping) mutasyonu uygulanır. Bakılan bit
+    # Mutation: Bireyler uzerinde bit cevirme(bit flipping) mutasyonu uygulanır. Bakılan bit
     # icin uretilen rastgele deger mutasyon oranından kucukse o bit tersine cevrilir.
-    function Mutasyon(cocuk)
+    function Mutation(cocuk)
         for iterasyon = 1:length(cocuk)
             tempRand = rand()
             if Constant.MUTASYONOLASILIGI > tempRand

@@ -3,7 +3,7 @@ module Constant
     EBEBEYNSAYISI = 	    30
     MUTASYONOLASILIGI =     0.15
     BASLANGICOLASILIGI =    0.5
-    ITERASYONSAYISI = 	    20
+    ITERASYONSAYISI = 	    2
     CANTABOYUTU = 		    165
     w =					    [23, 31, 29, 44, 53, 38, 63, 85, 89, 82]
     v =					    [92, 57, 49, 68, 60, 43, 67, 84, 87, 72] # size:10
