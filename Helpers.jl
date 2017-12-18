@@ -50,7 +50,13 @@ module Helper
     # RETURN
     #   returnStatement: ["0010100111", 547], ["0010100111", 547].... tipinde dictionary olumus hali.
     function populasyonDict(populasyon)
-        
+
+        returnStatement = Dict()
+
+        for b = 1:length(populasyon)
+            returnStatement[populasyon[b]] = bireyAgirlikKontrolu(populasyon[b])
+        end
+        return returnStatement
     end
 
 end
