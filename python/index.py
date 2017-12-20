@@ -8,11 +8,14 @@ populasyon = []
 
 def Calculate(populasyonlar):
     for i in Helper.populasyonDict(populasyonlar):
-        print(i)
-        # ff = ""
-        # for ix in i[0]:
-        #     ff = ff + str(ix)
-        # print("(", ff, "),", i[1])
+
+        # guzel yazdirma
+        ff = ""
+        for ix in i[0]:
+            ff = ff + str(ix)
+        print("(", ff, "),", i[1])
+        # guzel yazdirma sonu
+
 
     # Ebeveynleri sec (PARENT SELECT)
     parents = Step.parentSelect(populasyonlar)
@@ -33,12 +36,22 @@ def main():
 
     # Bitis kosulu saglanana kadar TEKRARLA(REPEAT)
     for iterasyon in range(Constant.ITERASYONSAYISI):
-        print("Generation: " + str(iterasyon))
+        print("\n\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Generation: " + str(iterasyon) + " <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
 
         if iterasyon == 0:
             # Baslangic populasyonunu rastgele olustur (INITIALISE)
             populasyon = Step.Initialise()
             populasyon = Calculate(populasyon)
+        elif iterasyon == 20:
+            print("\n\nFinal Population:")
+
+            # guzel yazdirma
+            ff = ""
+            for ix in Helper.populasyonDict(populasyon):
+                ff = ff + str(ix) + "\n"
+            print(ff)
+            # guzel yazdirma sonu
+
         else:
             populasyon = Calculate(populasyon)
 

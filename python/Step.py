@@ -34,7 +34,7 @@ def recombineAndMutate(parents):
     tempParents = []
 
     while len(parents) > 0:
-        print("Applying Crossover")
+        print("\nApplying Crossover")
 
         c1 = []
         c2 = []
@@ -44,7 +44,16 @@ def recombineAndMutate(parents):
 
         oran = Helper.oranHesapla(len(p1))
 
-        print("Parents:", p1, ",", p2, " at point ", oran)
+        # guzel yazdirma
+        ff111 = ""
+        for ix in p1:
+            ff111 = ff111 + str(ix)
+        ff222 = ""
+        for ix in p2:
+            ff222 = ff222 + str(ix)
+        # guzel yazdirma sonu
+
+        print("Parents:", ff111, ",", ff222, " at point ", oran)
 
         for iterator in range(oran):
             c1.append(p1[iterator])
@@ -54,12 +63,30 @@ def recombineAndMutate(parents):
             c2.append(p1[iterator])
             c1.append(p2[iterator])
 
-        print("Offsprings:", c1, ",", c2)
+        # guzel yazdirma
+        ff11 = ""
+        for ix in c1:
+            ff11 = ff11 + str(ix)
+        ff22 = ""
+        for ix in c2:
+            ff22 = ff22 + str(ix)
+        # guzel yazdirma sonu
+
+        print("Offsprings:", ff11, ",", ff22)
 
         mutasyonlucocuk1 = Mutation(c1)
         mutasyonlucocuk2 = Mutation(c2)
 
-        print("Mutated offsprings:", mutasyonlucocuk1, ",", mutasyonlucocuk2)
+        # guzel yazdirma
+        ff1 = ""
+        for ix in mutasyonlucocuk1:
+            ff1 = ff1 + str(ix)
+        ff2 = ""
+        for ix in mutasyonlucocuk2:
+            ff2 = ff2 + str(ix)
+        # guzel yazdirma sonu
+
+        print("Mutated offsprings:", ff1, ",", ff2)
 
         tempParents.append(mutasyonlucocuk1)
         tempParents.append(mutasyonlucocuk2)
