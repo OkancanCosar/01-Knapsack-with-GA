@@ -5,35 +5,53 @@ module index
 
     populasyon = []
 
+
     function Calculate(populasyonlar)
-        
-        for i = 1:length(populasyonlar)
-            println(populasyonlar[i], ", ", Helper.bireyDegerKontrolu(populasyonlar[i]))
+        for i in Helper.populasyonDict(populasyonlar)
+
+            # guzel yazdirma
+            ff = ""
+            for ix in i[0]
+                ff = ff + str(ix)
+            end
+            print("(", ff, "),", i[1])
+            # guzel yazdirma sonu
         end
 
         # Ebeveynleri sec (PARENT SELECT)
         parents = Step.parentSelect(populasyonlar)
 
-        # Ebeveynleri caprazla (RECOMBINE) ve yavruları mutasyona tabi tut (MUTATE)
-        # (Offsprings(Cocuklar), parents)
-        (yeniAdaylar, ebeveynler) = Step.recombineAndMutate(parents)
+        # Ebeveynleri caprazla (RECOMBINE) ve yavrulari mutasyona tabi tut (MUTATE)
+        # (Offsprings(Cocuklar))
+        cocuklar = Step.recombineAndMutate(parents)
 
-        # İki diziyi birleştirir. Değerlerini hesaplayıp dictionary yapar.
-        # sort'laryıp ilk 50 yi döndürür
-        populasyonlar = Step.survivalSelect(yeniAdaylar, ebeveynler)
-
-        return populasyonlar
+        # Degerlerini hesaplayip dictionary yapar.
+        # sort'laryip ilk 50 yi dondurur
+        populasyonlarx = Step.survivalSelect(cocuklar + populasyonlar)
+        return populasyonlarx
     end
-
 
     function main()
         global populasyon
 
-        for iterasyon = 0:Constant.ITERASYONSAYISI # Bitis kosulu saglanana kadar TEKRARLA(REPEAT)
-            println("Generation: ", iterasyon)
+        # Bitis kosulu saglanana kadar TEKRARLA(REPEAT)
+        for iterasyon = 1:Constant.ITERASYONSAYISI
+            print("\n\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Generation: ", iterasyon, " <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
+
             if iterasyon == 0
-                populasyon = Step.Initialise() # Baslangıc populasyonunu rastgele olustur (INITIALISE)
+                # Baslangic populasyonunu rastgele olustur (INITIALISE)
+                populasyon = Step.Initialise()
                 populasyon = Calculate(populasyon)
+            elseif iterasyon == 20
+                print("\n\nFinal Population:")
+
+                # guzel yazdirma
+                ff = ""
+                for ix in Helper.populasyonDict(populasyon)
+                    ff = ff + str(ix) + "\n"
+                end
+                print(ff)
+                # guzel yazdirma sonu
             else
                 populasyon = Calculate(populasyon)
             end

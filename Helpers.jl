@@ -2,79 +2,96 @@ module Helper
     # include("Steps.jl") # gülümse
     include("Constants.jl")
 
-    # Dairesel şekilde random sayıları listeden getirir.
+    # Dairesel sekilde random sayilari listeden getirir.
     # PARAMS
     #   sira:
     # RETURN
-    #   random: random listesinden sıradaki değer
-    function randomSayiGetir() # Helper.randomSayiGetir(Constant.RANDOMITERASYONU)
+    #   (float)random: random listesinden siradaki deger
+    function randomSayiGetir()
         if Constant.RANDOMITERASYONU == 11
             Constant.birle()
-            return Constant.RANDOMLAR[1]
+            return Constant.RANDOMLAR[Constant.RANDOMITERASYONU]
         end
         Constant.artir()
         return Constant.RANDOMLAR[Constant.RANDOMITERASYONU]
     end
 
-    # Gelen birey çantaya sığıyor mu?
+
+
+
+    # Gelen birey cantaya sigiyor mu?
     # PARAMS
-    #   gelenBirey: 1001100111
+    #   (array)gelenBirey: [1,0,0,1,1,0,0,1,1,1]
     # RETURN
-    #   toplam: gelen bireyin çantadaki ağırlıgı(weight)
-    function bireyAgirlikKontrolu(gelenBirey) # 01110011
-        toplam = 0 # bireyin ağırlığı
+    #   (int)toplam: gelen bireyin cantadaki agirligi(weight)
+    function bireyAgirlikKontrolu(gelenBirey)
+        toplam = 0
         for iterator = 1:length(Constant.w)
             if gelenBirey[iterator] == 1
                 toplam = toplam + Constant.w[iterator]
             end
         end
         if toplam > Constant.CANTABOYUTU
-            return "0"
+            return false
         else
-            return toplam
+            return true
         end
     end
 
-    # Gelen bireyin değeri
+    # Gelen bireyin degeri
     # PARAMS
-    #   gelenBirey: 1001100111
+    #   gelenBirey: [1,0,0,1,1,0,0,1,1,1]
     # RETURN
-    #   toplam: gelen bireyin değeri(value)
-    function bireyDegerKontrolu(gelenBirey) # 01110011
-        toplam = 0 # bireyin ağırlığı
-
-        if bireyAgirlikKontrolu(gelenBirey) != "0"
-            for iterator = 1:length(Constant.w)
-                if gelenBirey[iterator] == 1
-                    toplam = toplam + Constant.v[iterator]
+    #   (int)toplam: gelen bireyin degeri(value)
+    function bireyDegerKontrolu(gelenBireyx)
+        toplamx = 0
+        if bireyAgirlikKontrolu(gelenBireyx)
+            for iterators = 1:length(Constant.w)
+                if gelenBireyx[iterators] == 1
+                    toplamx = toplamx + Constant.v[iterators]
                 end
             end
-            return toplam
+            return toplamx
         else
             return 0
         end
     end
 
     # oran hesaplar
-    # min + rand()*(max-min)
-    function oranHesapla(populasyon)
-        r = rand()
-        z = round( 1 + (r * (populasyon - 1)))
-        return trunc(Int, z)
+    # min + (rand()*(max-min))
+    function oranHesapla(populasyonSayisi)
+        return int(1 + (randomSayiGetir() * (populasyonSayisi - 1)))
     end
 
-    # Verilen arraydeki bireylerin valuelerini hesaplayıp dictionary olarak döndürür.
+    # Verilen arraydeki bireylerin valuelerini hesaplayip dictionary olarak dondurur.
     # PARAMS
-    #   populasyon(array): Dönüştürülecek array
+    #   populasyon(array): Donusturulecek array
     # RETURN
     #   returnStatement: ["0010100111", 547], ["0010100111", 547].... tipinde dictionary olumus hali.
     function populasyonDict(populasyon)
-        returnStatement = Dict()
+        temmm = []
 
         for b = 1:length(populasyon)
-            returnStatement[populasyon[b]] = bireyDegerKontrolu(populasyon[b])
+            str1 = []
+            for i in populasyon[b]
+                str1.append(int(i))
+            end
+            temmm.append((str1, bireyDegerKontrolu(populasyon[b])))
         end
-        return returnStatement
+        return temmm
     end
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 end
