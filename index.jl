@@ -3,25 +3,93 @@ module index
     include("Steps.jl")
     include("Helpers.jl")
 
+    populasyon = []
+
+
+    function Calculate(populasyonlar)
+        for i in Helper.populasyonDict(populasyonlar)
+
+            # guzel yazdirma
+            ff = ""
+            for ix in i[0]
+                ff = ff + str(ix)
+            end
+            print("(", ff, "),", i[1])
+            # guzel yazdirma sonu
+        end
+
+        # Ebeveynleri sec (PARENT SELECT)
+        parents = Step.parentSelect(populasyonlar)
+
+        # Ebeveynleri caprazla (RECOMBINE) ve yavrulari mutasyona tabi tut (MUTATE)
+        # (Offsprings(Cocuklar))
+        cocuklar = Step.recombineAndMutate(parents)
+
+        # Degerlerini hesaplayip dictionary yapar.
+        # sort'laryip ilk 50 yi dondurur
+        populasyonlarx = Step.survivalSelect(cocuklar + populasyonlar)
+        return populasyonlarx
+    end
+
     function main()
-        populasyon = Step.Initialise() # Baslangıc populasyonunu rastgele olustur (INITIALISE)
+        global populasyon
 
-        for iterasyon = 1:Constant.ITERASYONSAYISI # Bitis kosulu saglanana kadar TEKRARLA(REPEAT)
-            println("Generation: ", iterasyon)
-            println("Populasyon: ", Helper.populasyonDict(populasyon))
+        # Bitis kosulu saglanana kadar TEKRARLA(REPEAT)
+        for iterasyon = 1:Constant.ITERASYONSAYISI
+            print("\n\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Generation: ", iterasyon, " <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
 
-            parents = Step.parentSelect(populasyon) # Ebeveynleri sec (PARENT SELECT)
-
-            # Ebeveynleri caprazla (RECOMBINE) ve yavruları mutasyona tabi tut (MUTATE)
-            # (Offsprings(Cocuklar), parents)
-            (yeniAdaylar, ebeveynler) = Step.recombineAndMutate(parents)
-
-            # İki diziyi birleştirir. Değerlerini hesaplayıp dictionary yapar.
-            # sort'laryıp ilk 50 yi döndürür
-            populasyon = Step.survivalSelect(yeniAdaylar, ebeveynler)
-
+            if iterasyon == 0
+                # Baslangic populasyonunu rastgele olustur (INITIALISE)
+                populasyon = Step.Initialise()
+                populasyon = Calculate(populasyon)
+            elseif iterasyon == 20
+                print("\n\nFinal Population:")
+            else
+                populasyon = Calculate(populasyon)
+            end
         end
     end
 
-    main()
+    # main()
+
+    function workingOnIt()
+        # for O = 0:20
+        #     print( Helper.oranHesapla(10), " | ")
+        # end
+
+        populasyonx = Step.Initialise();
+        # for i=1:length(populasyonx)
+        #     println(populasyonx[i])
+        # end
+        # println(length(populasyonx))
+        # println(typeof(populasyonx))
+
+        a = Step.parentSelect(populasyonx)
+        # for i=1:length(a)
+        #     println(a[i])
+        # end
+        # println(length(a))
+        # println(typeof(a))
+
+        cocuklar = Step.recombineAndMutate(a)
+        # for i=1:length(cocuklar)
+        #     println(cocuklar[i])
+        # end
+        # println(length(cocuklar))
+        # println(typeof(cocuklar))
+
+        populasyonlarx = Step.survivalSelect(cocuklar + populasyonx)
+        # for i=1:length(populasyonlarx)
+        #     println(populasyonlarx[i])
+        # end
+        # println(length(populasyonlarx))
+        # println(typeof(populasyonlarx))
+
+
+    end
+
+    workingOnIt()
+
+
+
 end

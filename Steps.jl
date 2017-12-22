@@ -2,116 +2,78 @@ module Step
     include("Constants.jl")
     include("Helpers.jl")
 
-    # Initialise: Popülasyonu ilk degerlendirme islemidir. Istenen populasyon boyutuna gore
-    # yeni bireyler olusturur. Her bir birey bit dizisi seklinde temsi edilir.(9 elemanlı canta icin
-    # ’100111010’ gibi). Bit dizisinin uzunlugu cantaya alınabilecek eleman sayısına esittir ve 0
-    # degeri ilgili elemanın cantaya alınmayacagını, 1 degeri ise elemanın alınacagını belirtir. Yeni
-    # bir birey olustururken her bir bit icin rastgele bir deger uretilir. Bitin degeri rastgele deger
-    # 0.5’den kucukse 0 aksi takdirde 1 olacaktır
+    # ilk populasyon olusturulmasi(bireyler)
     function Initialise()
         birey = []
         bireyler = []
+
         while length(bireyler) < Constant.POPULASYONBOYUTU
-            for i = 1:10
-                tempRand = rand()
-                if  tempRand >= Constant.BASLANGICOLASILIGI
+            for i = 1:length(Constant.w)
+                if Helper.randomSayiGetir() >= Constant.BASLANGICOLASILIGI
                     push!(birey, 1)
                 else
                     push!(birey, 0)
                 end
             end
-            if Helper.bireyAgirlikKontrolu(birey) != 0
-                push!(bireyler, birey)
-            end
-            birey=[] # temizle bireyi
-         end
-         return bireyler
+            push!(bireyler ,birey)
+            birey = []
+        end
+        return bireyler
     end
 
-    # Degerlendirme islemidir. Eger elemanlar cantaya sıgıyorsa degerlendirme sonucu
-    # toplam tutar, sıgmıyorsa sıfır(0) olacaktır. Derste kullanılan degerlendirme yontemi
-    # daha farklıdır.
-    function Evaluate(bireys)
-        for birey in bireys
-            if bireyKontrol(birey) < CANTABOYUTU
-                push!(BIREYLER, birey)
-            end
+    # Ebeveyn statusune yukselecek bireyler
+    function parentSelect(bireyler)
+        ebeveynler = []
+        for xx = 1:Constant.EBEBEYNSAYISI
+            ind = Helper.oranHesapla(length(bireyler))
+            push!(ebeveynler, bireyler[ind])
         end
+        return ebeveynler
     end
 
-    # Parent Select: Ebeveyn secimini temsil eder. Uretilen rastgele degere gore ebeveynler
-    # secilir. Secme islemi sırasında populasyon boyutu 5 ise [0, 0.2] birinci, (0.2, 0.4] ikinci, (0.4,
-    # 0.6] ucuncu, (0.6, 0.8] dorduncu, (0.8, 1] besinci ebeveyni temsil eder. Secilecek ebeveyn
-    # sayısı 2’den fazla ise 2 ebeveyn secilip caprazlama ve mutasyon islemleri yapılır, kalan sayıda
-    # ebeveyn 2’ser 2’ser secilerek aynı islemlere tabi tutulur. Ornegin populasyon boyutu 7 ise
-    # ve 4 ebeveyn secilecekse once 2 ebeveyn secilir, caprazlama ve mutasyon uygulanır sonra
-    # 2 ebeveyn daha secilerek caprazlama ve mutasyon uygulanır. Sonucta yavrularla(offspring)
-    # birlikte populasyonda 11 birey olur.
-    function parentSelect(BIREYLER)
-        populasyon = length(BIREYLER)
-        parentSayisi = 0
-        PARENTS = []
-
-        if isodd(populasyon)
-            parentSayisi = populasyon - 1
-        else
-            parentSayisi = populasyon
-        end
-
-        for xx = 1:parentSayisi
-            ind = Helper.oranHesapla(populasyon)
-            push!(PARENTS, BIREYLER[ind])
-        end
-        return PARENTS
-    end
-
-    # Recombine: Caprazlama islemini temsil eder. Tek noktalı caprazlama uygulanır. 5 elemanlı
-    # bir birey icin 0.2 caprazlama noktası ikinci elemandan itibaren caprazlamayı gerektirir.
+    # bireyleri çaprazlayip mutate ettikten sonra oluşan çocukları döndürür
     function recombineAndMutate(parents)
-        cocuklar = [] # Yeni oluşan offspringler
-        tempParents = []
+        cocuklr = []
 
         while length(parents) > 0
-            println("Applying Crossover")
+            println("\nApplying Crossover...")
+
             c1 = []
             c2 = []
 
             p1 = pop!(parents)
-            push!(tempParents, p1)
             p2 = pop!(parents)
-            push!(tempParents, p2)
 
-            oran = Helper.oranHesapla(10)
+            oran = Helper.oranHesapla(length(p1))
 
-            print("Parents: ", p1, ",", p2, " at point ", oran)
+            println("Parents: ", p1, ",", p2, " at point ", oran)
 
-            for iterator = 1 : oran - 1
+            for iterator = 1:oran - 1
                 push!(c1, p1[iterator])
                 push!(c2, p2[iterator])
             end
-            for iterator = oran : 10
+
+            for iterator = oran:length(p1)
                 push!(c2, p1[iterator])
                 push!(c1, p2[iterator])
             end
 
-            println("\nOffsprings: ", c1, ",", c2)
+            println("Offsprings: ", c1, ",", c2)
 
-            mutasyonluCocuk1 = Mutation(c1)
-            mutasyonluCocuk2 = Mutation(c2)
+            mutasyonlucocuk1 = MutationForKids(c1)
+            mutasyonlucocuk2 = MutationForKids(c2)
 
-            println("Mutated offsprings: ", mutasyonluCocuk1, " , ", mutasyonluCocuk2, "\n")
-            push!(cocuklar, mutasyonluCocuk1)
-            push!(cocuklar, mutasyonluCocuk2)
+            println("Mutated offsprings: ", mutasyonlucocuk1, ",", mutasyonlucocuk2)
+
+            push!(cocuklr, mutasyonlucocuk1)
+            push!(cocuklr, mutasyonlucocuk2)
         end
-        return cocuklar, tempParents
+        return cocuklr
     end
 
-    # Mutation: Bireyler uzerinde bit cevirme(bit flipping) mutasyonu uygulanır. Bakılan bit
-    # icin uretilen rastgele deger mutasyon oranından kucukse o bit tersine cevrilir.
-    function Mutation(cocuk)
+    function MutationForKids(cocuk)
         for iterasyon = 1:length(cocuk)
-            tempRand = rand()
-            if Constant.MUTASYONOLASILIGI > tempRand
+            if Constant.MUTASYONOLASILIGI > Helper.randomSayiGetir()
                 if cocuk[iterasyon] == 0
                     cocuk[iterasyon] = 1
                 else
@@ -122,32 +84,27 @@ module Step
         return cocuk
     end
 
-    # Survival Select: Hayatta kalanların secilmesini temsil eder. Populasyon sayısı(µ)’nın
-    # sabit kalması istendigi icin yeni uretilen yavrular(λ) populasyona eklenir ve tum populasyondan
-    # en iyi µ tanesi secilir.
-    function survivalSelect(offsprings, parents)
-        # iki diziyi birleştir
-        # değerlerini hesaplayıp dictionary yap => Helper.populasyonDict()
-        # sort la
-        # ilk 50 yi döndür
 
+
+
+
+
+    function survivalSelect(nonCheckPopulation)
         yeniAdaylar = []
 
-        # arrayleri birleştirdi.
-        nonCheckPopulation = [offsprings; parents]
-
-        # dictionary haline getirdi
         allPopulation = Helper.populasyonDict(nonCheckPopulation)
 
-        # sortladık(dictionary)
-        sortedPopulation = sort!(collect(allPopulation), by=x->x[2], rev=true)
+        allPopulationx = sorted(allPopulation, key=lambda, tup: tup[1])
 
-        for (key, value) in sortedPopulation
-            while(length(yeniAdaylar) < 50)
-                push!(yeniAdaylar,key)
+        for i = 1:Constant.POPULASYONBOYUTU
+            at = allPopulationx.pop()[0]
+
+            yen = []
+            for x = 1:length(at)
+                yen.append(at[x])
             end
+            yeniAdaylar.append(yen)
         end
         return yeniAdaylar
     end
-
 end
