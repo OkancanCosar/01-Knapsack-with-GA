@@ -29,10 +29,10 @@ module Constant
     end
 
     function initialInputs()
-        fileStream = open("../test1.txt")
-        # fileStream = open("../test2.txt")
-        # fileStream = open("../test3.txt")
-        # fileStream = open("../test4.txt")
+        # fileStream = open("../test1.txt") # =>    258 + 259 + 261 + 258 + 257
+        # fileStream = open("../test2.txt") # =>    253 + 254 + 252 + 253 + 254
+        # fileStream = open("../test3.txt") # =>    254 + 253 + 252 + 256 + 252
+        fileStream = open("../test4.txt") # =>      251 + 249 + 250 + 251 + 249
         lines = readlines(fileStream)
 
         global POPULASYONBOYUTU =       parse(Int, lines[2])

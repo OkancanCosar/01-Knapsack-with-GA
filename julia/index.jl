@@ -6,9 +6,9 @@ module index
     populasyon = []
 
     function Calculate(populasyonlar)
-        for i in Helper.populasyonDict(populasyonlar)
-            println(i)
-        end
+        # for i in Helper.populasyonDict(populasyonlar)
+        #     println(i)
+        # end
 
         # Ebeveynleri sec (PARENT SELECT)
         parents = Step.parentSelect(populasyonlar)
@@ -31,23 +31,26 @@ module index
 
         # Bitis kosulu saglanana kadar TEKRARLA(REPEAT)
         for iterasyon = 1:Constant.ITERASYONSAYISI
-            print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Generation: ", iterasyon, " <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n")
+            # print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Generation: ", iterasyon, " <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n")
 
             if iterasyon == 1
                 # Baslangic populasyonunu rastgele olustur (INITIALISE)
                 populasyon = Step.Initialise()
                 populasyon = Calculate(populasyon)
             elseif iterasyon == Constant.ITERASYONSAYISI
-                print("\nFinal Population:\n")
-                for i in Helper.populasyonDict(populasyon)
-                    println(i)
-                end
+                # print("\nFinal Population:\n")
+                # for i in Helper.populasyonDict(populasyon)
+                #     println(i)
+                # end
             else
                 populasyon = Calculate(populasyon)
             end
         end
     end
 
-    main()
+        a = now()
+        main()
+        b = now()
+        println(b - a)
 
 end

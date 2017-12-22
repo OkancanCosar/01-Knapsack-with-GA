@@ -37,7 +37,7 @@ module Step
         cocuklr = []
 
         while length(parents) > 0
-            println("\nApplying Crossover...")
+            # println("\nApplying Crossover...")
 
             c1 = []
             c2 = []
@@ -47,7 +47,7 @@ module Step
 
             oran = Helper.oranHesapla(length(p1))
 
-            println("Parents: ", p1, ",", p2, " at point ", oran)
+            # println("Parents: ", p1, ",", p2, " at point ", oran)
 
             for iterator = 1:oran - 1
                 push!(c1, p1[iterator])
@@ -59,12 +59,12 @@ module Step
                 push!(c1, p2[iterator])
             end
 
-            println("Offsprings: ", c1, ",", c2)
+            # println("Offsprings: ", c1, ",", c2)
 
             mutasyonlucocuk1 = MutationForKids(c1)
             mutasyonlucocuk2 = MutationForKids(c2)
 
-            println("Mutated offsprings: ", mutasyonlucocuk1, ",", mutasyonlucocuk2)
+            # println("Mutated offsprings: ", mutasyonlucocuk1, ",", mutasyonlucocuk2)
 
             push!(cocuklr, mutasyonlucocuk1)
             push!(cocuklr, mutasyonlucocuk2)
