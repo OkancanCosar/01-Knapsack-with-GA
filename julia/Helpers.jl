@@ -1,6 +1,7 @@
 module Helper
     # include("Steps.jl") # gülümse
     include("Constants.jl")
+    Constant.initialInputs()
 
     # Dairesel sekilde random sayilari listeden getirir.
     # PARAMS
@@ -57,25 +58,20 @@ module Helper
     # oran hesaplar
     # min + (rand()*(max-min))
     function oranHesapla(populasyonSayisi)
-        return trunc(Int,(1 + (randomSayiGetir() * (populasyonSayisi - 1))))
+        return trunc(Int, (1 + (randomSayiGetir() * (populasyonSayisi - 1))))
     end
 
-    # Verilen arraydeki bireylerin valuelerini hesaplayip dictionary olarak dondurur.
+    # Verilen arraydeki bireylerin valuelerini hesaplayip SORT'LU dictionary olarak dondurur.
     # PARAMS
     #   populasyon(array): Donusturulecek array
     # RETURN
     #   returnStatement: ["0010100111", 547], ["0010100111", 547].... tipinde dictionary olumus hali.
     function populasyonDict(populasyon)
         temmm = []
-
-        for b = 1:length(populasyon)
-            str1 = []
-            for i in populasyon[b]
-                append!(str1, trunc(Int,i))
-            end
-            append!(temmm, ((str1, bireyDegerKontrolu(populasyon[b])) ))
+        for keyPerson in populasyon
+            push!(temmm, (keyPerson, bireyDegerKontrolu(keyPerson)))
         end
-        return temmm
+        return sort!(collect(temmm), by=x->x[2], rev=true)
     end
 
 end
