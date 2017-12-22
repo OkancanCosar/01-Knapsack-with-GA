@@ -78,7 +78,11 @@ module index
         # println(length(cocuklar))
         # println(typeof(cocuklar))
 
-        populasyonlarx = Step.survivalSelect(cocuklar + populasyonx)
+        as = vcat(cocuklar, populasyonx)
+
+        populasyonlarx = Step.survivalSelect(as)
+         # v = [(1, "c"), (3, "a"), (2, "b")]; sort!(v, by = x -> x[1]);
+         # println(v)
         # for i=1:length(populasyonlarx)
         #     println(populasyonlarx[i])
         # end

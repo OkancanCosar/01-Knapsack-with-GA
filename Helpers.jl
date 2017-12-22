@@ -60,11 +60,6 @@ module Helper
         return trunc(Int,(1 + (randomSayiGetir() * (populasyonSayisi - 1))))
     end
 
-
-
-
-
-
     # Verilen arraydeki bireylerin valuelerini hesaplayip dictionary olarak dondurur.
     # PARAMS
     #   populasyon(array): Donusturulecek array
@@ -76,24 +71,11 @@ module Helper
         for b = 1:length(populasyon)
             str1 = []
             for i in populasyon[b]
-                str1.append(trunc(Int,i))
+                append!(str1, trunc(Int,i))
             end
-            temmm.append((str1, bireyDegerKontrolu(populasyon[b])))
+            append!(temmm, ((str1, bireyDegerKontrolu(populasyon[b])) ))
         end
         return temmm
     end
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 end
