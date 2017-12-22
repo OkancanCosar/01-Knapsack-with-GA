@@ -4,10 +4,10 @@
 dataList = []
 rastgeleListe = []
 
-data = open("../test1.txt", "r")
-# data = open("../test2.txt", "r")
-# data = open("../test3.txt", "r")
-# data = open("../test4.txt", "r")
+# data = open("../test1.txt", "r") # =>       18.863 + 18.183 + 17.413 + 17.032 + 188.442
+# data = open("../test2.txt", "r") # =>       18.189 + 17.961 + 17.044 + 16.771 + 17.927
+# data = open("../test3.txt", "r") # =>       7.855 + 8.102 + 7.44 + 7.327 + 8.138
+data = open("../test4.txt", "r") # =>       0.619 + 0.598 + 0.582 + 0.824 + 0.623
 
 
 for dt in data.read().split('\n'):
