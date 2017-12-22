@@ -1,3 +1,6 @@
+# OKANCAN COSAR
+# 12253018
+
 import Helper
 import Constant
 import Step
@@ -36,13 +39,13 @@ def main():
 
     # Bitis kosulu saglanana kadar TEKRARLA(REPEAT)
     for iterasyon in range(Constant.ITERASYONSAYISI):
-        print("\n\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Generation: " + str(iterasyon) + " <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
+        print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Generation: " + str(iterasyon) + " <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
 
         if iterasyon == 0:
             # Baslangic populasyonunu rastgele olustur (INITIALISE)
             populasyon = Step.Initialise()
             populasyon = Calculate(populasyon)
-        elif iterasyon == 20:
+        elif iterasyon == Constant.ITERASYONSAYISI-1:
             print("\n\nFinal Population:")
 
             # guzel yazdirma

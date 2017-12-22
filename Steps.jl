@@ -2,20 +2,20 @@ module Step
     include("Constants.jl")
     include("Helpers.jl")
 
-    # ilk populasyon olusturulmasi
+    # ilk populasyon olusturulmasi(bireyler)
     function Initialise()
         birey = []
         bireyler = []
 
         while length(bireyler) < Constant.POPULASYONBOYUTU
-            for i = length(Constant.w)
+            for i = 1:length(Constant.w)
                 if Helper.randomSayiGetir() >= Constant.BASLANGICOLASILIGI
-                    birey.append(1)
+                    push!(birey, 1)
                 else
-                    birey.append(0)
+                    push!(birey, 0)
                 end
             end
-            bireyler.append(birey)
+            push!(bireyler ,birey)
             birey = []
         end
         return bireyler
@@ -26,84 +26,52 @@ module Step
         ebeveynler = []
         for xx = 1:Constant.EBEBEYNSAYISI
             ind = Helper.oranHesapla(length(bireyler))
-            ebeveynler.append(bireyler[ind])
+            push!(ebeveynler, bireyler[ind])
         end
         return ebeveynler
     end
 
-    # sadece cocuklari dondur
+    # bireyleri çaprazlayip mutate ettikten sonra oluşan çocukları döndürür
     function recombineAndMutate(parents)
-        tempParents = []
+        cocuklr = []
 
-        while len(parents) > 0
-            print("\nApplying Crossover")
+        while length(parents) > 0
+            println("\nApplying Crossover...")
 
             c1 = []
             c2 = []
 
-            p1 = parents.pop()
-            p2 = parents.pop()
+            p1 = pop!(parents)
+            p2 = pop!(parents)
 
-            oran = Helper.oranHesapla(len(p1))
+            oran = Helper.oranHesapla(length(p1))
 
-            # guzel yazdirma
-            ff111 = ""
-            for ix in p1
-                ff111 = ff111 + str(ix)
-            end
-            ff222 = ""
-            for ix in p2
-                ff222 = ff222 + str(ix)
-            end
-            # guzel yazdirma sonu
+            println("Parents: ", p1, ",", p2, " at point ", oran)
 
-            print("Parents:", ff111, ",", ff222, " at point ", oran)
-
-            for iterator = 1:oran
-                c1.append(p1[iterator])
-                c2.append(p2[iterator])
+            for iterator = 1:oran - 1
+                push!(c1, p1[iterator])
+                push!(c2, p2[iterator])
             end
 
-            for iterator = oran: length(p1)
-                c2.append(p1[iterator])
-                c1.append(p2[iterator])
+            for iterator = oran:length(p1)
+                push!(c2, p1[iterator])
+                push!(c1, p2[iterator])
             end
 
-            # guzel yazdirma
-            ff11 = ""
-            for ix in c1
-                ff11 = ff11 + str(ix)
-            end
-            ff22 = ""
-            for ix in c2
-                ff22 = ff22 + str(ix)
-            end
-            # guzel yazdirma sonu
+            println("Offsprings: ", c1, ",", c2)
 
-            print("Offsprings:", ff11, ",", ff22)
+            mutasyonlucocuk1 = MutationForKids(c1)
+            mutasyonlucocuk2 = MutationForKids(c2)
 
-            mutasyonlucocuk1 = Mutation(c1)
-            mutasyonlucocuk2 = Mutation(c2)
+            println("Mutated offsprings: ", mutasyonlucocuk1, ",", mutasyonlucocuk2)
 
-            # guzel yazdirma
-            ff1 = ""
-            for ix in mutasyonlucocuk1
-                ff1 = ff1 + str(ix)
-            end
-            ff2 = ""
-            for ix in mutasyonlucocuk2
-                ff2 = ff2 + str(ix)
-            end
-            # guzel yazdirma sonu
-
-            print("Mutated offsprings:", ff1, ",", ff2)
-
-            tempParents.append(mutasyonlucocuk1)
-            tempParents.append(mutasyonlucocuk2)
-        return tempParents
+            push!(cocuklr, mutasyonlucocuk1)
+            push!(cocuklr, mutasyonlucocuk2)
+        end
+        return cocuklr
     end
 
-    function Mutation(cocuk)
+    function MutationForKids(cocuk)
         for iterasyon = 1:length(cocuk)
             if Constant.MUTASYONOLASILIGI > Helper.randomSayiGetir()
                 if cocuk[iterasyon] == 0
@@ -115,6 +83,11 @@ module Step
         end
         return cocuk
     end
+
+
+
+
+
 
     function survivalSelect(nonCheckPopulation)
         yeniAdaylar = []
@@ -133,6 +106,5 @@ module Step
             yeniAdaylar.append(yen)
         end
         return yeniAdaylar
-        end
     end
 end

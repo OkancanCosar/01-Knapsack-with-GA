@@ -44,20 +44,52 @@ module index
                 populasyon = Calculate(populasyon)
             elseif iterasyon == 20
                 print("\n\nFinal Population:")
-
-                # guzel yazdirma
-                ff = ""
-                for ix in Helper.populasyonDict(populasyon)
-                    ff = ff + str(ix) + "\n"
-                end
-                print(ff)
-                # guzel yazdirma sonu
             else
                 populasyon = Calculate(populasyon)
             end
         end
     end
 
-    main()
+    # main()
+
+    function workingOnIt()
+        # for O = 0:20
+        #     print( Helper.oranHesapla(10), " | ")
+        # end
+
+        populasyonx = Step.Initialise();
+        # for i=1:length(populasyonx)
+        #     println(populasyonx[i])
+        # end
+        # println(length(populasyonx))
+        # println(typeof(populasyonx))
+
+        a = Step.parentSelect(populasyonx)
+        # for i=1:length(a)
+        #     println(a[i])
+        # end
+        # println(length(a))
+        # println(typeof(a))
+
+        cocuklar = Step.recombineAndMutate(a)
+        # for i=1:length(cocuklar)
+        #     println(cocuklar[i])
+        # end
+        # println(length(cocuklar))
+        # println(typeof(cocuklar))
+
+        populasyonlarx = Step.survivalSelect(cocuklar + populasyonx)
+        # for i=1:length(populasyonlarx)
+        #     println(populasyonlarx[i])
+        # end
+        # println(length(populasyonlarx))
+        # println(typeof(populasyonlarx))
+
+
+    end
+
+    workingOnIt()
+
+
 
 end

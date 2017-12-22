@@ -16,14 +16,11 @@ module Helper
         return Constant.RANDOMLAR[Constant.RANDOMITERASYONU]
     end
 
-
-
-
     # Gelen birey cantaya sigiyor mu?
     # PARAMS
     #   (array)gelenBirey: [1,0,0,1,1,0,0,1,1,1]
     # RETURN
-    #   (int)toplam: gelen bireyin cantadaki agirligi(weight)
+    #   Taşınabilecek bi bireyse True döner
     function bireyAgirlikKontrolu(gelenBirey)
         toplam = 0
         for iterator = 1:length(Constant.w)
@@ -60,8 +57,13 @@ module Helper
     # oran hesaplar
     # min + (rand()*(max-min))
     function oranHesapla(populasyonSayisi)
-        return int(1 + (randomSayiGetir() * (populasyonSayisi - 1)))
+        return trunc(Int,(1 + (randomSayiGetir() * (populasyonSayisi - 1))))
     end
+
+
+
+
+
 
     # Verilen arraydeki bireylerin valuelerini hesaplayip dictionary olarak dondurur.
     # PARAMS
@@ -74,7 +76,7 @@ module Helper
         for b = 1:length(populasyon)
             str1 = []
             for i in populasyon[b]
-                str1.append(int(i))
+                str1.append(trunc(Int,i))
             end
             temmm.append((str1, bireyDegerKontrolu(populasyon[b])))
         end

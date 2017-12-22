@@ -1,3 +1,6 @@
+# OKANCAN COSAR
+# 12253018
+
 import Constant
 
 # Dairesel sekilde random sayilari listeden getirir.
